@@ -32,6 +32,7 @@ import com.google.zxing.client.android.Intents;
 import com.journeyapps.barcodescanner.BarcodeCallback;
 import com.journeyapps.barcodescanner.BarcodeResult;
 import com.journeyapps.barcodescanner.BarcodeView;
+import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 import com.journeyapps.barcodescanner.DefaultDecoderFactory;
 import com.journeyapps.barcodescanner.camera.CameraSettings;
 import java.util.ArrayList;
@@ -46,7 +47,7 @@ public class BarcodeScanner extends Plugin implements BarcodeCallback {
 
     public static final String PERMISSION_ALIAS_CAMERA = "camera";
 
-    private BarcodeView mBarcodeView;
+    private DecoratedBarcodeView mBarcodeView;
 
     // private int currentCameraId = Camera.CameraInfo.CAMERA_FACING_BACK;
 
@@ -103,7 +104,7 @@ public class BarcodeScanner extends Plugin implements BarcodeCallback {
             .runOnUiThread(
                 () -> {
                     // Create BarcodeView
-                    mBarcodeView = new BarcodeView(getActivity());
+                    mBarcodeView = new DecoratedBarcodeView(getActivity());
 
                     // Configure the camera (front/back)
                     CameraSettings settings = new CameraSettings();
@@ -140,7 +141,7 @@ public class BarcodeScanner extends Plugin implements BarcodeCallback {
                 () -> {
                     if (mBarcodeView != null) {
                         mBarcodeView.pause();
-                        mBarcodeView.stopDecoding();
+//                        mBarcodeView.stopstopDecoding();
                         ((ViewGroup) bridge.getWebView().getParent()).removeView(mBarcodeView);
                         mBarcodeView = null;
                     }
@@ -176,7 +177,7 @@ public class BarcodeScanner extends Plugin implements BarcodeCallback {
     private void destroy() {
         showBackground();
         dismantleCamera();
-        this.setTorch(false);
+//        this.setTorch(false);
     }
 
     private void configureCamera() {
@@ -533,44 +534,44 @@ public class BarcodeScanner extends Plugin implements BarcodeCallback {
         call.resolve();
     }
 
-    private void setTorch(boolean on) {
-        if (on != isTorchOn) {
-            isTorchOn = on;
-            getActivity()
-                .runOnUiThread(
-                    () -> {
-                        if (mBarcodeView != null) {
-                            mBarcodeView.setTorch(on);
-                        }
-                    }
-                );
-        }
-    }
+//    private void setTorch(boolean on) {
+//        if (on != isTorchOn) {
+//            isTorchOn = on;
+//            getActivity()
+//                .runOnUiThread(
+//                    () -> {
+//                        if (mBarcodeView != null) {
+//                            mBarcodeView.setTorch(on);
+//                        }
+//                    }
+//                );
+//        }
+//    }
 
-    @PluginMethod
-    public void enableTorch(PluginCall call) {
-        this.setTorch(true);
-        call.resolve();
-    }
-
-    @PluginMethod
-    public void disableTorch(PluginCall call) {
-        this.setTorch(false);
-        call.resolve();
-    }
-
-    @PluginMethod
-    public void toggleTorch(PluginCall call) {
-        this.setTorch(!this.isTorchOn);
-        call.resolve();
-    }
-
-    @PluginMethod
-    public void getTorchState(PluginCall call) {
-        JSObject result = new JSObject();
-
-        result.put("isEnabled", this.isTorchOn);
-
-        call.resolve(result);
-    }
+//    @PluginMethod
+//    public void enableTorch(PluginCall call) {
+//        this.setTorch(true);
+//        call.resolve();
+//    }
+//
+//    @PluginMethod
+//    public void disableTorch(PluginCall call) {
+//        this.setTorch(false);
+//        call.resolve();
+//    }
+//
+//    @PluginMethod
+//    public void toggleTorch(PluginCall call) {
+//        this.setTorch(!this.isTorchOn);
+//        call.resolve();
+//    }
+//
+//    @PluginMethod
+//    public void getTorchState(PluginCall call) {
+//        JSObject result = new JSObject();
+//
+//        result.put("isEnabled", this.isTorchOn);
+//
+//        call.resolve(result);
+//    }
 }
